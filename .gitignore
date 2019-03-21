@@ -328,3 +328,4 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+HCI.AspNetCore.Extensions/HCI.AspNetCore.Extensions/Settings.StyleCop
