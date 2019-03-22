@@ -9,10 +9,14 @@
     <Summary>Service, ApplicationBuilder Extensions for quick setup.</Summary>
     <PackageTags>library,csharp</PackageTags>
     <Title>HCI.AspNetCore.Extensions</Title>
-    <PackageVersion>1</PackageVersion>
+    <PackageVersion>1.0.1</PackageVersion>
     <Authors>Brandon Henricks</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>AspNetCore Extensions for quickly configuring .net core projects.</Description>
+    <PackageId>HCI.AspNetCore.Extensions</PackageId>
+    <PackageReleaseNotes>Removed Extra Dependencies
+Updated Method Signatures
+Added New Method For ServiceScopeFactory</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols></DebugSymbols>
@@ -20,14 +24,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />

@@ -26,7 +26,7 @@
             {
                 options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+                options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.ApiVersionSelector = new CurrentImplementationApiVersionSelector(options);
                 options.ApiVersionReader = new UrlSegmentApiVersionReader();
 
@@ -40,20 +40,23 @@
         }
 
         /// <summary>
-        /// Adds Custom MvCCore
+        /// Adds Custom MvcCore
         /// </summary>
         /// <returns>The custom mv CC ore.</returns>
         /// <param name="services">Services.</param>
-        public static IServiceCollection AddCustomMvCCore(this IServiceCollection services)
+        public static IServiceCollection AddCustomMvcCore(this IServiceCollection services)
         {
             services
                 .AddMvcCore()
                 .AddAuthorization()
                 .AddFormatterMappings()
                 .AddJsonFormatters()
-                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
+                .AddApiExplorer()
+                .AddDataAnnotations()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddLowerCaseUrlRouting();
+            services.AddCorsAllowAllOrigins();
 
             return services;
         }
@@ -65,13 +68,16 @@
         /// <returns></returns>
         public static IServiceCollection AddCustomizedMvc(this IServiceCollection services)
         {
-            //services.AddMvc(options =>
-            //{
-            //    options.Filters.Add(typeof(ValidateModelStateAttribute));
-            //});
             services
-                .AddMvc(options => options.EnableEndpointRouting = true)
-                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+                .AddMvc(options =>
+                    options.EnableEndpointRouting = true
+                )
+                .AddJsonOptions(options =>
+                    {
+                        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    }
+                )
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             return services;
