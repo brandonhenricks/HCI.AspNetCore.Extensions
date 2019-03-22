@@ -9,14 +9,16 @@
     <Summary>Service, ApplicationBuilder Extensions for quick setup.</Summary>
     <PackageTags>library,csharp</PackageTags>
     <Title>HCI.AspNetCore.Extensions</Title>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
     <Authors>Brandon Henricks</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>AspNetCore Extensions for quickly configuring .net core projects.</Description>
     <PackageId>HCI.AspNetCore.Extensions</PackageId>
-    <PackageReleaseNotes>Removed Extra Dependencies
-Updated Method Signatures
-Added New Method For ServiceScopeFactory</PackageReleaseNotes>
+    <PackageReleaseNotes>Added Additional Extension Methods
+- Session
+- HttpContext
+- HttpResponse
+- ServiceScope</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols></DebugSymbols>

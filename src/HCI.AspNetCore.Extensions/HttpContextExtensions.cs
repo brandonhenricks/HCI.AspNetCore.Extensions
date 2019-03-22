@@ -1,6 +1,9 @@
 ﻿namespace HCI.AspNetCore.Extensions
 {
     using System;
+    using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Security.Principal;
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Http;
 
@@ -27,6 +30,36 @@
         public static Exception GetException(this HttpContext httpContext)
         {
             return httpContext?.GetExceptionHandlerFeature()?.Error;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="IIdentity"/>
+        /// </summary>
+        /// <returns>The identity.</returns>
+        /// <param name="httpContext">Http context.</param>
+        public static IIdentity GetIdentity(this HttpContext httpContext)
+        {
+            return httpContext?.User?.Identity;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Claim"/> for the current <see cref="IIdentity"/>
+        /// </summary>
+        /// <returns>The user claims.</returns>
+        /// <param name="httpContext">Http context.</param>
+        public static IEnumerable<Claim> GetUserClaims(this HttpContext httpContext)
+        {
+            return httpContext?.User?.Claims;
+        }
+
+        /// <summary>
+        /// Checks <see cref="HttpContext"/> for <see cref="IIdentity"/>
+        /// </summary>
+        /// <returns><c>true</c>, if identity was hased, <c>false</c> otherwise.</returns>
+        /// <param name="httpContext">Http context.</param>
+        public static bool HasIdentity(this HttpContext httpContext)
+        {
+            return httpContext?.User?.Identity != null;
         }
     }
 }
