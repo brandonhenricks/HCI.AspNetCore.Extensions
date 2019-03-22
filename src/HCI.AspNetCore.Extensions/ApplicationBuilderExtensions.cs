@@ -2,9 +2,11 @@
 {
     using System;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
-    /// Application builder extensions.
+    /// <see cref="IApplicationBuilder"/> Extensions.
     /// </summary>
     public static class ApplicationBuilderExtensions
     {
@@ -39,6 +41,42 @@
         public static IApplicationBuilder When(this IApplicationBuilder builder, bool predicate, Func<IApplicationBuilder> compose)
         {
             return predicate ? compose() : builder;
+        }
+
+        /// <summary>
+        /// Adds the universal exception handler.
+        /// </summary>
+        /// <returns>The universal exception handler.</returns>
+        /// <param name="builder">Builder.</param>
+        /// <param name="logger">Logger.</param>
+        public static IApplicationBuilder AddUniversalExceptionHandler(this IApplicationBuilder builder, ILogger logger)
+        {
+            builder.UseExceptionHandler(handler =>
+            {
+                handler.Run(async context =>
+                {
+                    var exception = context.GetException();
+
+                    logger?.LogError(exception, exception.Message);
+
+                    var problemDetails = CreateProblemDetails("Exception", 500, exception);
+
+                    context.Response.WriteJson(problemDetails, Constants.ContentTypes.Json);
+                });
+            });
+
+            return builder;
+        }
+
+        private static ProblemDetails CreateProblemDetails(string title, int statusCode, Exception exception)
+        {
+            return new ProblemDetails
+            {
+                Title = title,
+                Status = statusCode,
+                Detail = exception.Message,
+                Instance = $"urn:myorganization:error:{Guid.NewGuid()}"
+            };
         }
     }
 }

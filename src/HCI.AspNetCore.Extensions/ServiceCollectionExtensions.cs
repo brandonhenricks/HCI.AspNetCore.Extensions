@@ -1,13 +1,12 @@
 ﻿namespace HCI.AspNetCore.Extensions
 {
-    using System;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.AspNetCore.Mvc.Versioning;
     using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
-    /// Service collection extensions.
+    /// <see cref="IServiceCollection"/> Extensions.
     /// </summary>
     public static class ServiceCollectionExtensions
     {
@@ -20,9 +19,7 @@
         /// https://github.com/Microsoft/aspnet-api-versioning/wiki/API-Version-Conventions
         public static IServiceCollection AddCustomApiVersioning(this IServiceCollection services, IControllerConvention convention = null)
         {
-            if (services is null) throw new ArgumentNullException(nameof(services));
-
-            services.AddApiVersioning(options =>
+            services?.AddApiVersioning(options =>
             {
                 options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
@@ -96,7 +93,7 @@
         /// <param name="services">Services.</param>
         public static void AddCorsAllowAllOrigins(this IServiceCollection services)
         {
-            services.AddCors(options =>
+            services?.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigins", builder =>
 
@@ -113,6 +110,6 @@
         /// <returns>The lower case URL routing.</returns>
         /// <param name="services">Services.</param>
         public static IServiceCollection AddLowerCaseUrlRouting(this IServiceCollection services) =>
-            services.AddRouting(options => options.LowercaseUrls = true);
+            services?.AddRouting(options => options.LowercaseUrls = true);
     }
 }
