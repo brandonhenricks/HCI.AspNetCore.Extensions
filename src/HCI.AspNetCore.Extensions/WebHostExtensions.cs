@@ -4,13 +4,22 @@ namespace HCI.AspNetCore.Extensions
     using System;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.EntityFrameworkCore;
-    using System.Linq;
 
     /// <summary>
     /// WebHost Extensions Class.
     /// </summary>
 	public static class WebHostExtensions
     {
+        /// <summary>
+        /// Gets the <see cref="IServiceScopeFactory"/> from the <see cref="IWebHost"/>
+        /// </summary>
+        /// <returns>The service scope factory.</returns>
+        /// <param name="webHost">Web host.</param>
+        public static IServiceScopeFactory GetServiceScopeFactory(this IWebHost webHost)
+        {
+            return webHost.Services.GetService(typeof(IServiceScopeFactory)) as IServiceScopeFactory;
+        }
+
         /// <summary>
         /// Applies the pending database migrations.
         /// </summary>
@@ -21,11 +30,17 @@ namespace HCI.AspNetCore.Extensions
         {
             try
             {
-                var serviceScopeFactory = (IServiceScopeFactory)webHost.Services.GetService(typeof(IServiceScopeFactory));
+                var serviceScopeFactory = webHost.GetServiceScopeFactory();
+
+                if (serviceScopeFactory is null)
+                {
+                    throw new NullReferenceException(nameof(serviceScopeFactory));
+                }
 
                 using (var scope = serviceScopeFactory.CreateScope())
                 {
                     var services = scope.ServiceProvider;
+
                     var dbContext = services.GetRequiredService<T>();
 
                     if (dbContext is null)
@@ -33,12 +48,7 @@ namespace HCI.AspNetCore.Extensions
                         throw new NullReferenceException(nameof(dbContext));
                     }
 
-                    var pendingMigrations = dbContext.Database.GetPendingMigrations();
-
-                    if (pendingMigrations.Any())
-                    {
-                        dbContext.Database.Migrate();
-                    }
+                    dbContext.Database.Migrate();
                 }
             }
             catch (Exception)
