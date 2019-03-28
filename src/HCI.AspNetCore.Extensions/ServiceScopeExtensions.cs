@@ -16,6 +16,11 @@
         /// <typeparam name="T">The 1st type parameter.</typeparam>
         public static T GetService<T>(this IServiceScope scope)
         {
+            if (scope is null)
+            {
+                throw new ArgumentNullException(nameof(scope));
+            }
+
             return scope.ServiceProvider.GetRequiredService<T>();
         }
     }

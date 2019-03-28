@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Mvc.Versioning;
     using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// <see cref="IServiceCollection"/> Extensions.
@@ -71,8 +72,9 @@
                 )
                 .AddJsonOptions(options =>
                     {
-                        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                        options.SerializerSettings.Formatting = Formatting.Indented;
+                        options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     }
                 )
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

@@ -35,9 +35,7 @@
 
                 using (var scope = serviceScopeFactory?.CreateScope())
                 {
-                    var services = scope.ServiceProvider;
-
-                    var dbContext = services?.GetRequiredService<T>();
+                    var dbContext = scope.GetService<T>();
 
                     dbContext?.Database.Migrate();
                 }
