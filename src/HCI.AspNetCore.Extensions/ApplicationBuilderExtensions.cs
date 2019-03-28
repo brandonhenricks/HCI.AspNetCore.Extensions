@@ -2,6 +2,7 @@
 {
     using System;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
@@ -59,7 +60,7 @@
 
                     logger?.LogError(exception, exception.Message);
 
-                    var problemDetails = CreateProblemDetails("Exception", 500, exception);
+                    var problemDetails = CreateProblemDetails("Error", context, exception);
 
                     context.Response.WriteJson(problemDetails, Constants.ContentTypes.Json);
                 });
@@ -68,14 +69,14 @@
             return builder;
         }
 
-        private static ProblemDetails CreateProblemDetails(string title, int statusCode, Exception exception)
+        private static ProblemDetails CreateProblemDetails(string title, HttpContext context, Exception exception)
         {
             return new ProblemDetails
             {
                 Title = title,
-                Status = statusCode,
+                Status = 500,
                 Detail = exception.Message,
-                Instance = $"urn:myorganization:error:{Guid.NewGuid()}"
+                Instance = $"urn:{context.Request.Host}:error:{Guid.NewGuid()}"
             };
         }
     }
